@@ -19,11 +19,12 @@ export const HeroCard = ({
 	// const charactersByHero = <p> {characters}</p>;
 
 	return (
-		<div className='col'>
+		<div className='col animate__animated animate__fadeIn'>
 			<div className='card m-3 '>
 				<div
 					className='row no-gutters card-body '
-					style={{ height: "16rem", width: "25rem" }}>
+					// style={{ height: "16rem", width: "25rem" }}
+				>
 					<div className='col-4'>
 						<img
 							src={heroImageUrl}
