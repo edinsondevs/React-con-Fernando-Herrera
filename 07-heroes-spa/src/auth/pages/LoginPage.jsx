@@ -16,6 +16,7 @@ export const LoginPage = () => {
 	return (
 		<div className='container mt-5'>
 			<h1>LoginPage</h1>
+			<hr />
 			<button
 				type='button'
 				className='btn btn-outline-primary'
