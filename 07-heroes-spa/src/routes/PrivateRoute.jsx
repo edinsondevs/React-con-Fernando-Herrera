@@ -3,8 +3,8 @@ import { AuthContext } from "../auth"
 import { Navigate, useLocation } from "react-router-dom"
 
 export const PrivateRoute = ({ children }) => {
-  const location = useLocation()
-  const { logged } = useContext(AuthContext)
+  const location = useLocation();
+  const { logged } = useContext(AuthContext);
   
   const { pathname, search } = location
 
