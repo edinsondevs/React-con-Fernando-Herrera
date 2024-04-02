@@ -4,7 +4,7 @@ import { HeroList } from '../components'
 export const MarvelPage = () => {
   return (
     <>
-      <h1>Marvel</h1>
+      <h1 aria-label='marvel'>Marvel</h1>
       <hr />
       <HeroList publisher='Marvel Comics' />
     </>

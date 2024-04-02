@@ -6,7 +6,9 @@ export const Navbar = () => {
 	const navigate = useNavigate();
 	const { user, logout } = useContext(AuthContext);
 	const onLogout = () => {
-		navigate("/login");
+		navigate("/login",{
+			replace: true,
+		});
 		logout();
 	};
 	
@@ -47,7 +49,7 @@ export const Navbar = () => {
 
 			<div className='navbar-collapse collapse w-100 order-3 dual-collapse2 d-flex justify-content-end fs-5 text'>
 				<ul className='navbar-nav ml-auto'>
-					<span className='nav-item nav-link text-warning fw-bold'>
+					<span className='nav-item nav-link text-warning fw-bold' aria-label="user-logged">
 						{user ? user.name : "Invitado"}
 					</span>
 					<button
