@@ -1,24 +1,26 @@
 import { HeroCard } from "../components/HeroCard";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useForm } from "../../hooks/useForm/useForm";
 import queryString from "query-string";
 import { getHeroesByName } from "../helpers/getHeroesByName";
 
 export const SearchPage = () => {
 	const navigate = useNavigate();
+	const location = useLocation();
 
 	const { q = "" } = queryString.parse(location.search);
 	const heroes = getHeroesByName(q);
 
 	const { searchText, onInputChange, onResetForm } = useForm({
+		// searchText: q,
 		searchText: "",
 	});
 
 	const onSearchSubmit = (event) => {
 		event.preventDefault();
 		// if (searchText.trim().length <= 1) return;
-
-		navigate(`?q=${searchText}&asc=true`);
+		console.log('desde testing form')
+		navigate(`?q=${searchText}`);
 
 		onResetForm();
 	};
@@ -31,7 +33,7 @@ export const SearchPage = () => {
 				<div className='col-5'>
 					<h4>Searching</h4>
 					<hr />
-					<form onSubmit={onSearchSubmit}>
+					<form onSubmit={onSearchSubmit} aria-label="form">
 						<input
 							type='text'
 							name='searchText'
@@ -43,7 +45,7 @@ export const SearchPage = () => {
 						/>
 						<button
 							className='btn btn-outline-dark mt-4'
-							onClick={() => {}}>
+						>
 							Search
 						</button>
 					</form>
@@ -53,10 +55,10 @@ export const SearchPage = () => {
 					<h4>Results</h4>
 					<hr />
 					{!q && (
-						<div className='alert alert-primary'> Search Hero</div>
+						<div aria-label="alert-search" className='alert alert-primary'> Search Hero</div>
 					)}
 					{heroes.length === 0 && q && (
-						<div className='alert alert-danger'>
+						<div className='alert alert-danger' aria-label="alert-danger">
 							{" "}
 							No Hero with <b> {q} </b>{" "}
 						</div>
