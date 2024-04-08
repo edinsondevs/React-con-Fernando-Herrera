@@ -2,6 +2,6 @@ import React from 'react'
 
 export const AboutPage = () => {
   return (
-    <h1>AboutPage</h1>
+    <h1 data-testid='about-page'>AboutPage</h1>
   )
 }
