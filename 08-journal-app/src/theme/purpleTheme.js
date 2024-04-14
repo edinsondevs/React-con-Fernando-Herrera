@@ -27,7 +27,7 @@ export const purpleTheme = createTheme({
             main: '#543884',
         },
         error: {
-            main: red[600]
+            main: red["A700"]
         },
     }
 })
