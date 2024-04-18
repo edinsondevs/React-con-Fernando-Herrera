@@ -3,14 +3,45 @@ import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Link from "@mui/material/Link";
-import GoogleIcon from "@mui/icons-material/Google";
 import { Link as RouterLink } from "react-router-dom";
 import { AuthLayout } from "../layout/AuthLayout";
+import { useForm } from "../../hooks";
+
+const initialDataForm = {
+	name: "edinson madrid",
+	email: "edinsonmadrid@gmail.com",
+	password: "123456",
+};
+
+// Validacion para el useForm del formulario
+const formValidations = {
+	name: [(value) => value.length >= 3, "Debe introducir un nombre valido" ],
+	email: [ (value) => value.includes("@"), "Debe introducir un correo valido" ],
+	password: [ (value) => value.length >= 6, "La contraseña debe tener mas de 6 caracteres" ],
+};
 
 export const RegisterPage = () => {
+	const {
+		formState,
+		onInputChange,
+		name,
+		nameValid,
+		email,
+		emailValid,
+		password,
+		passwordValid,
+	} = useForm(initialDataForm, formValidations);
+
+	const onSubmit = (event) => {
+		event.preventDefault();
+		console.log({ name, email, password });
+		// dispatch()
+	};
+
+	console.log(nameValid)
 	return (
 		<AuthLayout title='Crear cuenta'>
-			<form action=''>
+			<form onSubmit={onSubmit}>
 				<Grid container>
 					<Grid
 						item
@@ -22,8 +53,10 @@ export const RegisterPage = () => {
 							placeholder='Nombre completo'
 							fullWidth
 							label='Nombre completo'
-							// value={}
-							// onChange={}
+							name='name'
+							value={name}
+							required
+							onChange={onInputChange}
 						/>
 					</Grid>
 					<Grid
@@ -36,8 +69,10 @@ export const RegisterPage = () => {
 							placeholder='correo@gmail.com'
 							fullWidth
 							label='correo'
-							// value={}
-							// onChange={}
+							value={email}
+							name='email'
+							required
+							onChange={onInputChange}
 						/>
 					</Grid>
 					<Grid
@@ -50,8 +85,10 @@ export const RegisterPage = () => {
 							placeholder='Contraseña'
 							fullWidth
 							label='contraseña'
-							// value={}
-							// onChange={}
+							value={password}
+							name='password'
+							required
+							onChange={onInputChange}
 						/>
 					</Grid>
 					<Grid
@@ -59,6 +96,7 @@ export const RegisterPage = () => {
 						sx={{ mt: 1, mb: 2 }}>
 						<Button
 							variant='contained'
+							type='submit'
 							fullWidth>
 							Crear Cuenta
 						</Button>

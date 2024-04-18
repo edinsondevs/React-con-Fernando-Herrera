@@ -18,7 +18,7 @@ export const todosApi = createApi({
             query: (id) => `/todos/${id}`
         })
     })
-
 })
 
 export const { useGetTodosQuery, useGetTodoIdQuery } = todosApi;
+
