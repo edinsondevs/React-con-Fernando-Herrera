@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
@@ -9,29 +9,37 @@ import { Link as RouterLink } from "react-router-dom";
 import { AuthLayout } from "../layout/AuthLayout";
 import { useForm } from "../../hooks/useForm";
 import { useDispatch, useSelector } from "react-redux";
-import { checkingAuthenticatication, startGoogleSignIn } from "../../store/auth/thunks";
+import { startGoogleSignIn, startLoginWithEmailPassword } from "../../store/auth/thunks";
+import { Alert } from '@mui/material';
+
 
 export const LoginPage = () => {
 	const dispatch = useDispatch();
-	const { status } = useSelector(state => state.auth);
+	const { status, errorMessage } = useSelector(state => state.auth);
 
-	const { email, password, onInputChange } = useForm({
-		email: "edinson@gmail.com",
-		password: "123456",
+	const { formState, email, password, onInputChange } = useForm({
+		email: "",
+		password: "",
 	});
 
 	const isAuthenticated = useMemo(() => status === 'checking' , [status])
-	const onSubmit = (e) => {
-		const { email, password } = e
-		e.preventDefault();
-		console.log({ email, password });
-		dispatch(checkingAuthenticatication(email, password ));
+	
+	const onSubmit = (event) => {
+		event.preventDefault();
+
+		// llamar al thunks
+		dispatch(startLoginWithEmailPassword({email, password}));
+		
 	};
 
 	const onGoogleSignIn = () => {
 		console.log("onGoogleSignIn");
 		dispatch(startGoogleSignIn());
 	};
+
+	useEffect(() =>{
+		
+	},[status]);
 
 	return (
 		<AuthLayout title='Login'>
@@ -66,6 +74,16 @@ export const LoginPage = () => {
 							name='password'
 							onChange={onInputChange}
 						/>
+					</Grid>
+					<Grid
+						item
+						display={(!!errorMessage) ? '' : 'none'}
+						xs={12}
+						md={12}
+						sx={{ mt: 2 }}>
+						<Alert severity='error' >
+							{errorMessage}
+							</Alert>
 					</Grid>
 					<Grid
 						container

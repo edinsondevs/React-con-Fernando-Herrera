@@ -1,5 +1,9 @@
 import { useState } from "react";
-import { useGetTodoIdQuery, useGetTodosQuery } from "./store/apis/todosApi";
+import {
+	useGetTodoIdQuery,
+	useGetTodosQuery, 
+	useGetPlaceholderIdQuery,
+} from "./store/apis/todosApi";
 
 export const TodoApp = () => {
 	const [todoId, setTodoId] = useState(1);
@@ -17,6 +21,11 @@ export const TodoApp = () => {
 		if (todoId === 1) return;
 		setTodoId(todoId - 1);
 	};
+
+	const datos  = useGetPlaceholderIdQuery()
+	const {data, isLoading} = datos
+	console.log("isLoading: ", isLoading);
+	console.log(datos)
 
 	return (
 		<>

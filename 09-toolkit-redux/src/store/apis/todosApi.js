@@ -6,19 +6,24 @@ export const todosApi = createApi({
 
     baseQuery: fetchBaseQuery({
 
-        baseUrl: 'https://jsonplaceholder.typicode.com'
+        baseUrl: 'https://'
+        // baseUrl: 'https://picsum.photos'
     }),
 
     endpoints: (builder) => ({
 
         getTodos: builder.query({
-            query: () => '/todos'
+            query: () => 'jsonplaceholder.typicode.com/todos'
         }),
         getTodoId: builder.query({
-            query: (id) => `/todos/${id}`
+            query: (id) => `jsonplaceholder.typicode.com/todos/${id}`
+        }),
+        getPlaceholderId: builder.query({
+            // query: (id, heigth, altura, personId) => `/id/${id}/${heigth}/${altura}?grayscale&blur=${personId}`
+            query: () => `rickandmortyapi.com/api/character/1,183`
         })
     })
 })
 
-export const { useGetTodosQuery, useGetTodoIdQuery } = todosApi;
+export const { useGetTodosQuery, useGetTodoIdQuery, useGetPlaceholderIdQuery } = todosApi;
 

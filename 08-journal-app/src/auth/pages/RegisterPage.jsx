@@ -9,6 +9,9 @@ import { useForm } from "../../hooks";
 import { useState } from "react";
 import { startCreatingUserWithEmailPassword } from './../../store/auth/thunks';
 import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useMemo } from "react";
+import { Alert } from "@mui/material";
 
 const initialDataForm = {
 	displayName: "",
@@ -25,6 +28,8 @@ const formValidations = {
 
 export const RegisterPage = () => {
 	const [formSubmitted, setFormSubmitted] = useState(false);
+	const { status, errorMessage } = useSelector(state => state.auth);
+	const isCheckingAuthentication = useMemo(()=> status === 'checking',[status])
 	const {
 		formState,
 		onInputChange,
@@ -103,9 +108,19 @@ export const RegisterPage = () => {
 					<Grid
 						container
 						sx={{ mt: 1, mb: 2 }}>
+					<Grid 
+						item
+						xs={12}
+						display={ (!!errorMessage ) ? '' : 'none'}
+					>
+						<Alert severity="error" >
+							{errorMessage}
+						</Alert>
+					</Grid>
 						<Button
 							variant='contained'
 							type='submit'
+							disabled={isCheckingAuthentication}
 							fullWidth>
 							Crear Cuenta
 						</Button>

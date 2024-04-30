@@ -8,11 +8,11 @@ import { PokemonApp } from "./PokemonApp.jsx";
 import { TodoApp } from "./TodoApp.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-	<React.StrictMode>
+	// <React.StrictMode>
 		<Provider store={store}>
 			<App />
 			{/* <PokemonApp /> */}
-			{/* <TodoApp /> */}
+			<TodoApp />
 		</Provider>
-	</React.StrictMode>
+	// </React.StrictMode>
 );

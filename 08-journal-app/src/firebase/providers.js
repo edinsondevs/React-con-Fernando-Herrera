@@ -1,4 +1,4 @@
-import { GoogleAuthProvider, createUserWithEmailAndPassword, signInWithPopup, updateProfile } from "firebase/auth";
+import { GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, updateProfile } from "firebase/auth";
 import { FirebaseAuth } from "./config";
 
 const googleProvider = new GoogleAuthProvider();
@@ -18,7 +18,6 @@ export const singInWithGoogle = async () => {
             emailVerified
         }
     } catch (error) {
-        // Handle Errors here.
         const errorCode = error.code;
         const errorMessage = error.message;
         return {
@@ -46,10 +45,30 @@ export const registerUserWithEmailPassword = async ({ email, password, displayNa
         }
     } catch (error) {
         const errorCode = error.code;
-        const errorMessage = error.message;
         return {
             ok: false,
-            errorMessage: errorMessage,
+            errorMessage: 'Usuario ya existe',
+            errorCode: errorCode,
+        }
+    }
+};
+
+export const loginWithEmailAndPassword = async ( {email, password} ) =>{
+    try {
+        const resp = await signInWithEmailAndPassword(FirebaseAuth, email, password);
+        const { uid, photoURL, displayName } = resp.user
+        return{
+            ok: true,
+            displayName,
+            photoURL,
+            email,
+            uid
+        }
+    } catch (error) {
+        const errorCode = error.code;
+        return{
+            ok: false,
+            errorMessage: 'Usuario o Contraseña Incorrectos',
             errorCode: errorCode,
         }
     }
