@@ -12,8 +12,10 @@ import {
 	ListItemText,
 } from "@mui/material";
 import TurnedInNotOutlinedIcon from "@mui/icons-material/TurnedInNotOutlined";
+import { useSelector } from "react-redux";
 
 export const SideBar = ({ drawerWidth }) => {
+	const { displayName } = useSelector((state)=> state.auth)
 	return (
 		<Box
 			component='nav'
@@ -33,7 +35,7 @@ export const SideBar = ({ drawerWidth }) => {
 					},
 				}}>
 				<Toolbar>
-					<Typography variant='h6'>Edinson Madrid</Typography>
+					<Typography variant='h6'>{displayName}</Typography>
 				</Toolbar>
 				<Divider />
 				<List>

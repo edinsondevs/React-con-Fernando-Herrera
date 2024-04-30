@@ -6,8 +6,16 @@ import IconButton from "@mui/material/IconButton";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import Grid from "@mui/material/Grid";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
+import { useDispatch } from 'react-redux';
+import { startLogout } from "../../store/auth";
 
 export const NavBar = ({ drawerWidth }) => {
+	const dispatch = useDispatch()
+
+	const onLogout = () => {
+		dispatch(startLogout());
+	}
+
 	return (
 		<AppBar
 			position='fixed'
@@ -20,7 +28,6 @@ export const NavBar = ({ drawerWidth }) => {
 				<IconButton
 					color='inherit'
 					edge='start'
-					//onClick={}
 					sx={{
 						mr: 2,
 						display: { sm: "none" },
@@ -39,7 +46,9 @@ export const NavBar = ({ drawerWidth }) => {
 						component='div'>
 						Journal App
 					</Typography>
-					<IconButton color='inherit'>
+					<IconButton
+						color='inherit'
+						onClick={onLogout}>
 						<LogoutOutlinedIcon />
 					</IconButton>
 				</Grid>

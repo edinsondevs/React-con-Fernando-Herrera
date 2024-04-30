@@ -52,7 +52,9 @@ export const RegisterPage = () => {
 	
 	return (
 		<AuthLayout title='Crear cuenta'>
-			<form onSubmit={onSubmit}>
+			<form
+				onSubmit={onSubmit}
+				className='animate__animated animate__fadeIn animate__faster'>
 				<Grid container>
 					<Grid
 						item
@@ -108,15 +110,12 @@ export const RegisterPage = () => {
 					<Grid
 						container
 						sx={{ mt: 1, mb: 2 }}>
-					<Grid 
-						item
-						xs={12}
-						display={ (!!errorMessage ) ? '' : 'none'}
-					>
-						<Alert severity="error" >
-							{errorMessage}
-						</Alert>
-					</Grid>
+						<Grid
+							item
+							xs={12}
+							display={!!errorMessage ? "" : "none"}>
+							<Alert severity='error'>{errorMessage}</Alert>
+						</Grid>
 						<Button
 							variant='contained'
 							type='submit'

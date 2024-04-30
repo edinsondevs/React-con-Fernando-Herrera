@@ -19,13 +19,11 @@ export const AppRouter = () => {
 				status === 'authenticated' 
 				? <Route path="/*" element={<JournalRoutes />} />
 				: <Route path="/auth/*" element={ <AuthRoutes />} />
+			
 			}
-
+			{/* CON EL TERNARIO DE STATUS ESTOY DANDOLE SEGURIDAD A LAS RUTAS  */}
 			<Route path="/*" element={ <Navigate to='/auth/login' /> } />
 
-			{/* <Route path="/auth/*" element={ <AuthRoutes />} /> */}
-			{/* JournalApp */}
-			{/* <Route path="/*" element={<JournalRoutes />} /> */}
 		</Routes>
 	);
 };

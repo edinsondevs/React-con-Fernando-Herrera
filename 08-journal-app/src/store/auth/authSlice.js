@@ -29,7 +29,7 @@ export const authSlice = createSlice({
         state.email= null;
         state.displayName= null;
         state.imagen= null;
-        state.errorMessage = payload.errorMessage;
+        state.errorMessage = payload?.errorMessage;
         state.photoURL= null;
       },
       checkingCredentials: (state)=>{

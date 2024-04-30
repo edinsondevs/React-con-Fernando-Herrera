@@ -21,7 +21,7 @@ export const AuthLayout = ({children, title = ''}) => {
 				xs={3}
 				// md={8}
 				sx={{
-                    width: { sm: 450 },
+					width: { sm: 450 },
 					backgroundColor: "white",
 					padding: 3,
 					borderRadius: 2,
@@ -31,7 +31,7 @@ export const AuthLayout = ({children, title = ''}) => {
 					sx={{ mb: 1 }}>
 					{title}
 				</Typography>
-                { children } 
+				{children}
 			</Grid>
 		</Grid>
 	);
