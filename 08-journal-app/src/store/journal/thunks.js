@@ -1,7 +1,7 @@
 
 import { collection, doc, setDoc } from 'firebase/firestore/lite';
 import { FirebaseDB } from '../../firebase/config';
-import { addNewEmptyNote, savingNewNote, setActiveNote, setNotes } from './';
+import { addNewEmptyNote, savingNewNote, setActiveNote, setNotes, setSaving, updateNote } from './';
 import { loadNotes } from '../../helpers/loadNotes';
 
 export const startNewNote = ()=>{
@@ -41,5 +41,24 @@ export const startLoadingNotes = ()=>{
         
         const notes = await loadNotes(uid)
         dispatch(setNotes(notes))
+    };
+};
+
+export const startSaveNote = ()=>{
+    return async(dispatch, getState)=>{
+        dispatch(setSaving());
+
+        const { uid } = getState().auth;
+        const { active: note } = getState().journal
+    
+        const noteToFireStore = { ...note };
+        /* En vista de que en la note viene el id, se debe eliminar para que no lo cree en firebase con ese valor, 
+        para ello se usa la propiedad delete de js */
+        delete noteToFireStore.id;
+        
+        const  docRef = doc(FirebaseDB, `${uid}/journal/notas/${note.id}` )
+        await setDoc( docRef, noteToFireStore, { merge: true } )
+        
+        dispatch(updateNote(note));
     };
 };

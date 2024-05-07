@@ -4,10 +4,32 @@ import Button from "@mui/material/Button";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import TextField from '@mui/material/TextField'
 import { ImageGallery } from "../components";
+import { useForm } from './../../hooks/useForm';
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useMemo } from "react";
+import { setActiveNote, startSaveNote } from "../../store/journal";
 
 
 
 export const NoteView = () => {
+  const dispatch = useDispatch();
+
+  const { active: note } = useSelector(state => state.journal);
+
+  const { body, title, date, onInputChange, formState } = useForm( note );
+
+  const dateString = useMemo(() => {
+    const newDate = new Date(date);
+    return newDate.toUTCString();
+  }, [date]);
+
+  useEffect(() => {
+      dispatch(setActiveNote(formState));
+  },[formState])
+
+  const onSaveNote = () => {
+		dispatch(startSaveNote());
+  };
 	return (
 		<Grid
 			container
@@ -22,11 +44,11 @@ export const NoteView = () => {
 					fontSize={30}
 					fontWeight='light'
 					color='initial'>
-					14 Abril 2024
+					{dateString}
 				</Typography>
 			</Grid>
 			<Grid item>
-				<Button>
+				<Button onClick={onSaveNote}>
 					<SaveOutlinedIcon sx={{ fontSize: 30, mr: 1,  }} />
 					Guardar
 				</Button>
@@ -40,8 +62,9 @@ export const NoteView = () => {
                 variant="filled"
                 fullWidth
                 sx={{ border: 'none', mb:1}}
-                // value={}
-                // onChange={}
+                value={ title}
+                name="title"
+                onChange={ onInputChange }
               />
               <TextField
                 id=""
@@ -53,8 +76,9 @@ export const NoteView = () => {
                 multiline
                 sx={{ border: 'none', mb:1}}
                 minRows={5}
-                // value={}
-                // onChange={}
+                value={ body }
+                name="body"
+                onChange={ onInputChange }
               />
               {/* Galeria de Imagenes */}
               <ImageGallery />

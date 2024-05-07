@@ -12,15 +12,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { startGoogleSignIn, startLoginWithEmailPassword } from "../../store/auth/thunks";
 import { Alert } from '@mui/material';
 
+const formData = {
+	email: "",
+	password: "",
+};
 
 export const LoginPage = () => {
 	const dispatch = useDispatch();
 	const { status, errorMessage } = useSelector(state => state.auth);
 
-	const { formState, email, password, onInputChange } = useForm({
-		email: "",
-		password: "",
-	});
+	const { formState, email, password, onInputChange } = useForm(formData);
 
 	const isAuthenticated = useMemo(() => status === 'checking' , [status])
 	
