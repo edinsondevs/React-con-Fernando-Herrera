@@ -1,4 +1,5 @@
 import { loginWithEmailAndPassword, logoutFirebase, registerUserWithEmailPassword, singInWithGoogle } from "../../firebase/providers"
+import { clearNotesLogout } from "../journal"
 import { checkingCredentials, login, logout } from "./index"
 
 export const checkingAuthenticatication = (email, password) => {
@@ -46,6 +47,8 @@ export const startLoginWithEmailPassword = ({email, password}) => {
 export const startLogout = () => {
     return async (dispatch) => {
         await logoutFirebase();
+        dispatch(clearNotesLogout())
         dispatch(logout({}))
     }
 }
+

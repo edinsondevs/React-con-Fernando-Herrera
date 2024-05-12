@@ -1,7 +1,7 @@
 
-import { collection, doc, setDoc } from 'firebase/firestore/lite';
+import { collection, deleteDoc, doc, setDoc } from 'firebase/firestore/lite';
 import { FirebaseDB } from '../../firebase/config';
-import { addNewEmptyNote, savingNewNote, setActiveNote, setNotes, setPhotosActiveNote, setSaving, updateNote } from './';
+import { addNewEmptyNote, deleteNoteById, savingNewNote, setActiveNote, setNotes, setPhotosActiveNote, setSaving, updateNote } from './';
 import { loadNotes } from '../../helpers/loadNotes';
 import { fileUpload } from '../../helpers/fileUpload';
 
@@ -72,11 +72,27 @@ export const startUploadingFiles = (files = []) => {
         // await fileUpload( files[0] )
         const fileUploadPromises = [];
         for (const file of files) {
-            fileUploadPromises.push(fileUpload(file))
+            fileUploadPromises.push(fileUpload(file))/*  */
         }
 
         const respPromise = await Promise.all(fileUploadPromises)
         dispatch(setPhotosActiveNote(respPromise))
 
     }
+};
+
+export const startDeletingNote = () => {
+    return async (dispatch, getState) => {
+
+        const { uid } = getState().auth
+        const {active: note} = getState().journal
+
+        // Mando a eliminar la nota en firebase
+        const docRef = doc(FirebaseDB, `${uid}/journal/notas/${note.id}`);
+        await deleteDoc(docRef );
+        // Mando el dispatch para eliminar la nota en el frontend
+        dispatch(deleteNoteById(note.id));
+
+
+    };
 };
