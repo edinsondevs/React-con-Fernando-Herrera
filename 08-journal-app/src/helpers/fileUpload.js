@@ -1,6 +1,7 @@
 
 export const fileUpload = async (file) =>{
-    if (!file) throw new Error('No hay archivo para subir');
+    // if (!file) throw new Error('No hay archivo para subir');
+    if (!file) return null;
 
     const cloudUrl = 'https://api.cloudinary.com/v1_1/dpckrdwrj/upload';
     const formData = new FormData();
@@ -14,12 +15,15 @@ export const fileUpload = async (file) =>{
         });
 
         if (!respPost.ok) {
-            return new Error('Error en la subida');
+            // return new Error('Error en la subida');
+            return null
+
         }
         const file = await respPost.json();
         return file.secure_url
         
     } catch (error) {
-        throw new Error(error.message);
+        // throw new Error(error.message);
+        return null
     }
 };
