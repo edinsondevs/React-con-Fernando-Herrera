@@ -2,7 +2,7 @@ import { loginWithEmailAndPassword, logoutFirebase, registerUserWithEmailPasswor
 import { clearNotesLogout } from "../journal"
 import { checkingCredentials, login, logout } from "./index"
 
-export const checkingAuthenticatication = (email, password) => {
+export const checkingAuthentication = () => {
     return async (dispatch) => {
         dispatch ( checkingCredentials())
     }
