@@ -28,8 +28,8 @@ export const notAuthenticatedState = {
 export const demoUser = {
     uid: '1234ABCD',
     email: 'test@example.com',
-    displayName: 'Demo User',
-    photoURL: 'https://example.webp',
+    // displayName: 'Demo User',
+    // photoURL: 'https://example.webp',
 };
 
 export const demoUserLogout = {
