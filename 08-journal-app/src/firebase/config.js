@@ -2,6 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore/lite';
+import { getEnvironments } from './../helpers/getEnviroments';
 
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -17,7 +18,10 @@ import { getFirestore } from 'firebase/firestore/lite';
 //     messagingSenderId: "910991190138",
 //     appId: "1:910991190138:web:3465bd127ee951ece7f3c3"
 // };
+// console.log(import.meta.env.MODE)
 
+const env = getEnvironments();
+console.log(env)
 // Testing
 const firebaseConfig = {
     apiKey: "AIzaSyDZ21Eodr7UelaoyFRYjZNmw0mIaIP4YQU",
