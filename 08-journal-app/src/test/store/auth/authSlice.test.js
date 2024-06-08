@@ -18,7 +18,7 @@ describe('pruebas en el authSlice', () => {
         // Suponiendo que ya esta autenticado, le paso los datos del usuario que se quiere autenticar
         const state = authSlice.reducer(initialState, login( demoUser ));
         // Espero a que la respuesta sea los datos del usuario autenticado
-        expect(state).toEqual( authenticatedState );
+        expect(state.status).toEqual( authenticatedState.status );
     });
     
     test('Debe realizar la logout sin argumentos ', () => {

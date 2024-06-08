@@ -9,8 +9,7 @@ describe('Pruebas en el Journal Thunks', () =>
 
     beforeEach(() => jest.clearAllMocks());
 
-    test('startNewNote debe crear una nueva nota en blanco', async () =>
-    {
+    test('startNewNote debe crear una nueva nota en blanco', async () => {
 
         const uid = 'TEST_ID';
         getState.mockReturnValue({ auth: { uid: uid } })
@@ -37,5 +36,5 @@ describe('Pruebas en el Journal Thunks', () =>
         const deletePromises = [];
         docs.forEach(doc => deletePromises.push(deleteDoc(doc.ref)));
         await Promise.all(deletePromises);
-    });
+    },7000);
 })

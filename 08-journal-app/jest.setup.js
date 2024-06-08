@@ -7,7 +7,6 @@ require('dotenv').config({
 });
 
 
-
 jest.mock('./src/helpers/getEnviroments', () => ({
     getEnvironments:() => ({ ...process.env })
 }));

@@ -34,7 +34,7 @@ export const LoginPage = () => {
 	};
 
 	const onGoogleSignIn = () => {
-		console.log("onGoogleSignIn");
+		// console.log("onGoogleSignIn");
 		dispatch(startGoogleSignIn());
 	};
 
@@ -69,12 +69,14 @@ export const LoginPage = () => {
 						md={12}
 						sx={{ mt: 2 }}>
 						<TextField
+							data-testid='password'
+							aria-label='password'
 							type='password'
 							placeholder='contraseña'
 							fullWidth
-							label='contraseña'
+							label='pass'
 							value={password}
-							name='password'
+							name='pass'
 							onChange={onInputChange}
 						/>
 					</Grid>
@@ -112,6 +114,7 @@ export const LoginPage = () => {
 								startIcon={<GoogleIcon />}
 								variant='contained'
 								fullWidth
+								aria-label='google-btn'
 								disabled={isAuthenticated}
 								onClick={onGoogleSignIn}>
 								<Typography variant='body1'>Google</Typography>

@@ -21,7 +21,7 @@ import { getEnvironments } from './../helpers/getEnviroments';
 // console.log(import.meta.env.MODE)
 
 const env = getEnvironments();
-console.log(env)
+// console.log(env)
 // Testing
 const firebaseConfig = {
     apiKey: "AIzaSyDZ21Eodr7UelaoyFRYjZNmw0mIaIP4YQU",
