@@ -74,9 +74,9 @@ export const LoginPage = () => {
 							type='password'
 							placeholder='contraseña'
 							fullWidth
-							label='pass'
+							label='contraseña'
 							value={password}
-							name='pass'
+							name='password'
 							onChange={onInputChange}
 						/>
 					</Grid>
