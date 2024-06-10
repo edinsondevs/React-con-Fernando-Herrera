@@ -18,23 +18,23 @@ const formData = {
 };
 
 export const LoginPage = () => {
-	const dispatch = useDispatch();
 	const { status, errorMessage } = useSelector(state => state.auth);
+	const dispatch = useDispatch();
 
-	const { formState, email, password, onInputChange } = useForm(formData);
+	const { email, password, onInputChange } = useForm(formData);
 
 	const isAuthenticated = useMemo(() => status === 'checking' , [status])
 	
 	const onSubmit = (event) => {
 		event.preventDefault();
-
+		console.log('entre al submit') 
 		// llamar al thunks
 		dispatch(startLoginWithEmailPassword({email, password}));
 		
 	};
 
 	const onGoogleSignIn = () => {
-		// console.log("onGoogleSignIn");
+		console.log("onGoogleSignIn");
 		dispatch(startGoogleSignIn());
 	};
 
@@ -45,14 +45,11 @@ export const LoginPage = () => {
 	return (
 		<AuthLayout title='Login'>
 			<form
+				data-testid="submit-form"
 				onSubmit={onSubmit}
 				className='animate__animated animate__fadeIn animate__faster'>
 				<Grid container>
-					<Grid
-						item
-						xs={12}
-						md={12}
-						sx={{ mt: 2 }}>
+					<Grid item xs={12} md={12} sx={{ mt: 2 }}>
 						<TextField
 							type='email'
 							placeholder='correo@gmail.com'
@@ -63,13 +60,9 @@ export const LoginPage = () => {
 							onChange={onInputChange}
 						/>
 					</Grid>
-					<Grid
-						item
-						xs={12}
-						md={12}
-						sx={{ mt: 2 }}>
+					<Grid item xs={12} md={12} sx={{ mt: 2 }}>
 						<TextField
-							data-testid='password'
+							inputProps={{ 'data-testid': 'password' }}
 							aria-label='password'
 							type='password'
 							placeholder='contraseña'
@@ -80,23 +73,14 @@ export const LoginPage = () => {
 							onChange={onInputChange}
 						/>
 					</Grid>
-					<Grid
-						item
-						display={!!errorMessage ? "" : "none"}
-						xs={12}
-						md={12}
-						sx={{ mt: 2 }}>
+					<Grid item display={!!errorMessage ? "" : "none"} xs={12} md={12} sx={{ mt: 2 }}>
 						<Alert severity='error'>{errorMessage}</Alert>
 					</Grid>
 					<Grid
 						container
 						spacing={2}
 						sx={{ mt: 1, mb: 2 }}>
-						<Grid
-							item
-							xs={12}
-							sm={12}
-							md={6}>
+						<Grid item xs={12} sm={12} md={6}>
 							<Button
 								variant='contained'
 								fullWidth
@@ -105,11 +89,7 @@ export const LoginPage = () => {
 								Login
 							</Button>
 						</Grid>
-						<Grid
-							item
-							xs={12}
-							sm={12}
-							md={6}>
+						<Grid item xs={12} sm={12} md={6}>
 							<Button
 								startIcon={<GoogleIcon />}
 								variant='contained'
@@ -123,10 +103,7 @@ export const LoginPage = () => {
 					</Grid>
 				</Grid>
 
-				<Grid
-					container
-					direction='row'
-					justifyContent='end'>
+				<Grid container direction='row' justifyContent='end'>
 					{" "}
 					<Link
 						color='inherit'
