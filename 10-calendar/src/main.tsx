@@ -1,9 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { Calendar } from './Calendar.tsx'
+import { CalendarApp } from './CalendarApp.tsx'
+import { BrowserRouter } from 'react-router-dom'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <Calendar />
+    <BrowserRouter>
+      <CalendarApp />
+    </BrowserRouter>
   </React.StrictMode>,
 )
