@@ -24,6 +24,7 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.3",
     "whatwg-fetch": "^3.6.20",
+    "ws": "^8.17.1",
     "yarn": "^1.22.22"
   },
   "devDependencies": {
