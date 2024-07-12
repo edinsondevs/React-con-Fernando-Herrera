@@ -13,3 +13,19 @@ export const localizer = dateFnsLocalizer({
     getDay,
     locales,
   })
+
+type View = 'week' | 'month' | 'day' | 'agenda';
+
+export const defaultView = localStorage.getItem('defaultView') as View || 'day';
+
+// Define la interfaz para los eventos
+export interface Event {
+  title?: string;
+  notes?: string;
+  start?: Date;
+  end?: Date;
+  user?: {
+    id: number;
+    name: string;
+  };
+}
