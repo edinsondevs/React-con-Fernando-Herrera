@@ -3,32 +3,11 @@ import { defaultView, getMessagesES, localizer } from '../../helpers'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 
 import { CalendarEvent, Navbar } from "../index"
-import { addHours } from 'date-fns'
 import { Button } from 'primereact/button'
-import { useState } from 'react'
 import { CalendarModal } from '../components/CalendarModal'
+import { useCalendarStore, useUiStore } from '../../hooks'
 
-const myEventsList = [{
-  title: 'Cumpleaños',
-  notes: 'ir a la fiesta',
-  start: new Date(),
-  end: addHours(new Date(), 2), 
-  user: {
-    id: 1,
-    name: 'John'
-  }
-},
-{
-  title: 'Vacaciones',
-  notes: 'Disfrutar de las vacaciones ',
-  start: new Date(2024, 6, 3),
-  end: new Date(2024, 6, 13), 
-  user: {
-    id: 2,
-    name: 'Juan'
-  }
-}
-]
+
 
 const eventGetter: EventPropGetter<any> = (_event: string, _start: Date, _end: Date, isSelected: boolean,  ) => {
   return {
@@ -41,47 +20,55 @@ const eventGetter: EventPropGetter<any> = (_event: string, _start: Date, _end: D
   }
 }
 
-const onDoubleClick = (event: any) => {
-  console.log({onDoubleClick:  event})
-}
-
-const onSelect = (event: any) => {
-  console.log({onSelect: event})
-}
-
-const onViewChange = ( event: any) => {
-  console.log({ onViewChange: event})
-  localStorage.setItem('defaultView', event)
-}
-
 
 export const CalendarPage = () => {
-  const [visible, setVisible] = useState<boolean>(true);
 
+  const { openDateModal } = useUiStore();
+  const { events } = useCalendarStore();
+  
+  const onDoubleClick = (event: any,) => {
+    openDateModal();
+    console.log({ onDoubleClick: event });
+  };
+  
+  const onSelect = (event: any) => {
+    console.log({onSelect: event})
+  }
+  
+  const onViewChange = ( event: any) => {
+    console.log({ onViewChange: event})
+    localStorage.setItem('defaultView', event)
+  }
+
+  
   return (
-    <>
-      <Navbar />
-      <Button label="Show" icon="pi pi-external-link" onClick={() => setVisible(true)} />
-      <div>
-        <Calendar
-          culture='es'
-          localizer={localizer}
-          events={myEventsList}
-          defaultView={defaultView}
-          startAccessor="start"
-          endAccessor="end"
-          style={{ height: 'calc(100vh - 100px)' }}
-          messages={getMessagesES() as any}
-          eventPropGetter={eventGetter}
-          components={{
-            event: CalendarEvent
-          }}
-          onDoubleClickEvent={onDoubleClick}
-          onSelectEvent={onSelect}
-          onView={onViewChange}
-        />
-      </div>
-        {visible && <CalendarModal visible={visible} setVisible={ setVisible}/> }
-    </>
-  )
+		<>
+			<Navbar />
+			<Button
+				label='Show'
+				icon='pi pi-external-link'
+				onClick={openDateModal}
+			/>
+			<div>
+				<Calendar
+					culture='es'
+					localizer={localizer}
+					events={events}
+					defaultView={defaultView}
+					startAccessor='start'
+					endAccessor='end'
+					style={{ height: "calc(100vh - 100px)" }}
+					messages={getMessagesES() as any}
+					eventPropGetter={eventGetter}
+					components={{
+						event: CalendarEvent,
+					}}
+					onDoubleClickEvent={onDoubleClick}
+					onSelectEvent={onSelect}
+					onView={onViewChange}
+				/>
+			</div>
+			{<CalendarModal />}
+		</>
+  );
 }

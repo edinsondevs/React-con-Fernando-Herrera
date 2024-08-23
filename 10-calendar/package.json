@@ -15,14 +15,17 @@
     "vite"
   ],
   "dependencies": {
+    "@reduxjs/toolkit": "1.8.2",
     "date-fns": "^3.6.0",
     "primeflex": "^3.3.1",
+    "primeicons": "^7.0.0",
     "primereact": "^10.7.0",
     "react": "^18.3.1",
     "react-big-calendar": "^1.13.0",
     "react-dom": "^18.3.1",
+    "react-redux": "8.0.2",
     "react-router-dom": "^6.24.0",
-    "primeicons": "^7.0.0"
+    "sweetalert2": "^11.12.4"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",
