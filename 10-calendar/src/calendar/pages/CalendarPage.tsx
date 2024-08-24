@@ -2,7 +2,7 @@ import { Calendar, EventPropGetter } from 'react-big-calendar'
 import { defaultView, getMessagesES, localizer } from '../../helpers'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 
-import { CalendarEvent, Navbar } from "../index"
+import { CalendarEvent, FabAddDelete, Navbar } from "../index"
 import { Button } from 'primereact/button'
 import { CalendarModal } from '../components/CalendarModal'
 import { useCalendarStore, useUiStore } from '../../hooks'
@@ -69,6 +69,7 @@ export const CalendarPage = () => {
 			</div>
 			{<CalendarModal />}
 			{<FabAddNew />}
+			{<FabAddDelete />}
 		</>
   );
 }

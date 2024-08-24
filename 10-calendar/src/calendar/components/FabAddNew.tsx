@@ -1,16 +1,13 @@
-import { useDispatch } from "react-redux";
 import { useCalendarStore, useUiStore } from "../../hooks";
-import { addHours } from "date-fns";
 
 export const FabAddNew = () => {
-    const dispatch = useDispatch();
     const { setActiveEvent  } = useCalendarStore();
     const { openDateModal } = useUiStore();
     
     const handleClick = (): void => {
         setActiveEvent({
-			title: "Hola mundo",
-			notes: "nota nueva de prueba",
+			title: "",
+			notes: "",
 			start: new Date(),
 			end: "",
 			user: {

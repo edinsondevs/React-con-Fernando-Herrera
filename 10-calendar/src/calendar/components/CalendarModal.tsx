@@ -38,20 +38,16 @@ const initialFormValues: initialFormValuesInterface = {
 
 export const CalendarModal = () => {
 	const { isDateModalOpen, closeDateModal } = useUiStore();
-	const { events, activeEvent } = useCalendarStore();
+	const { activeEvent, startSaveEvent } = useCalendarStore();
 
 
 	const [formValues, setFormValues] = useState(initialFormValues);
 
-	const [{ title, notes, start, end }] = events;
-
-	const isDisabledBtn = !title || !notes || !start || !end;
 
 	const ContentFooter = () => {
 		return (
 			<button
 				type='submit'
-				disabled={isDisabledBtn}
 				className='btn btn-outline-primary btn-block'>
 				<i className='far fa-save'></i>
 				<span> Guardar</span>
@@ -85,9 +81,8 @@ export const CalendarModal = () => {
 
 	//******************************************************************* */
 	//*  FUNCION PARA ENVIAR EL FORMULARIO
-	const onSubmit = (e: any) => {
+	const onSubmit = async (e: any) => {
 		e.preventDefault();
-		console.log(formValues);
 		const difference = differenceInSeconds(
 			formValues.end,
 			formValues.start
@@ -97,7 +92,10 @@ export const CalendarModal = () => {
 			Swal.fire("Error en fechas", "Revisar las fechas", "error");
 			return;
 		}
-		// closeDateModal();
+
+		await startSaveEvent(formValues);
+
+		closeDateModal();
 	};
 
 	//******************************************************************* */
