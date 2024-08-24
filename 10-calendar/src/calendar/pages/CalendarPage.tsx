@@ -6,6 +6,7 @@ import { CalendarEvent, Navbar } from "../index"
 import { Button } from 'primereact/button'
 import { CalendarModal } from '../components/CalendarModal'
 import { useCalendarStore, useUiStore } from '../../hooks'
+import { FabAddNew } from '../index'
 
 
 
@@ -24,19 +25,17 @@ const eventGetter: EventPropGetter<any> = (_event: string, _start: Date, _end: D
 export const CalendarPage = () => {
 
   const { openDateModal } = useUiStore();
-  const { events } = useCalendarStore();
+  const { events, setActiveEvent } = useCalendarStore();
   
   const onDoubleClick = (event: any,) => {
     openDateModal();
-    console.log({ onDoubleClick: event });
   };
   
   const onSelect = (event: any) => {
-    console.log({onSelect: event})
+	setActiveEvent(event);
   }
   
   const onViewChange = ( event: any) => {
-    console.log({ onViewChange: event})
     localStorage.setItem('defaultView', event)
   }
 
@@ -69,6 +68,7 @@ export const CalendarPage = () => {
 				/>
 			</div>
 			{<CalendarModal />}
+			{<FabAddNew />}
 		</>
   );
 }

@@ -1,34 +1,53 @@
-import { Dialog } from "primereact/dialog";
+// import { Dialog } from "primereact/dialog";
 import { CalendarComponent } from "./CalendarComponent";
-import { useForm } from "../../hooks/useForm";
-import { FormInterface, InputCalendar } from "../../utils/interfaces/calendarInterfaces";
-import { differenceInSeconds } from "date-fns";
+import Modal from "react-modal";
+
+// import { useForm } from "../../hooks/useForm";
+import { InputCalendar } from "../../utils/interfaces/calendarInterfaces";
+import { addHours, differenceInSeconds } from "date-fns";
 import Swal from "sweetalert2";
-import 'sweetalert2/dist/sweetalert2.min.css';
-import { useUiStore } from "../../hooks";
+import "sweetalert2/dist/sweetalert2.min.css";
+import { useCalendarStore, useUiStore } from "../../hooks";
+import { ChangeEvent, useEffect, useState } from "react";
+
+const customStyles = {
+	content: {
+		top: "50%",
+		left: "50%",
+		right: "auto",
+		bottom: "auto",
+		marginRight: "-50%",
+		transform: "translate(-50%, -50%)",
+	},
+};
+Modal.setAppElement("#root");
+
+interface initialFormValuesInterface {
+	title: string;
+	notes: string;
+	start: Date;
+	end: Date;
+}
+
+const initialFormValues: initialFormValuesInterface = {
+	title: "",
+	notes: "",
+	start: new Date(),
+	end: addHours(new Date(), 2),
+};
 
 export const CalendarModal = () => {
 	const { isDateModalOpen, closeDateModal } = useUiStore();
-	
-	const { formState, onInputChange, onResetForm } = useForm <FormInterface>({
-		initialForm: {
-			title: "",
-			notes: "",
-			start: new Date(),
-			end: new Date(),
-		},
-	});
-	
-	const {
-		title = "",
-		notes = "",
-		start = new Date(),
-		end = new Date(),
-	} = formState;
+	const { events, activeEvent } = useCalendarStore();
+
+
+	const [formValues, setFormValues] = useState(initialFormValues);
+
+	const [{ title, notes, start, end }] = events;
 
 	const isDisabledBtn = !title || !notes || !start || !end;
 
-	const ContentFooter = ()=> {
+	const ContentFooter = () => {
 		return (
 			<button
 				type='submit'
@@ -37,103 +56,125 @@ export const CalendarModal = () => {
 				<i className='far fa-save'></i>
 				<span> Guardar</span>
 			</button>
-		)
+		);
 	};
 
-	const onDateChange = (event: any, type: InputCalendar) => {
-		const simulated = {
-			target: { name: type, value: event },
-		} as React.ChangeEvent<HTMLInputElement>;
-		onInputChange(simulated);
+	//******************************************************************* */
+	//*  FUNCION PARA CAMBIAR LOS VALORES DE LAS FECHAS
+	const onDateChange = (event: any, changing: InputCalendar) => {
+		setFormValues({
+			...formValues,
+			[changing]: event,
+		});
 	};
 
-
-		const onSubmit = (e: any) => {
-			e.preventDefault();
-			
-			const difference = differenceInSeconds(formState.end, formState.start);
-			
-			if(isNaN(difference) || difference <= 0) {
-				console.log('Error en fechas');
-				Swal.fire('Error en fechas', 'Revisar las fechas', 'error');
-				return;
-			}
-			onResetForm();
-			closeDateModal();
-			
+	useEffect(() => {
+		if (activeEvent !== null) {
+			setFormValues({...activeEvent});
 		}
-    return (
-		<div className='card flex justify-content-center'>
-			<Dialog
-				header='Nuevo Evento'
-				visible={isDateModalOpen}
-				style={{ width: "50vw" }}
-				onHide={() => {
-					if (!isDateModalOpen) return;
-					closeDateModal();
-					//setVisible(false);
-				}}
-				position='center'>
-				<form
-					className='container'
-					onSubmit={onSubmit}>
-					<div className='form-group mb-2'>
-						<label>Fecha y hora inicio</label>
-						<br />
-						<CalendarComponent
-							onInputChange={(e) => onDateChange(e, "start")}
-							showTime
-						/>
-					</div>
+	}, [activeEvent]);
 
-					<div className='form-group mb-2'>
-						<label>Fecha y hora fin</label>
-						<br />
-						<CalendarComponent
-							onInputChange={(e) => onDateChange(e, "end")}
-							minDate={start}
-							showTime
-						/>
-					</div>
+	//******************************************************************* */
+	//*  FUNCION PARA CAMBIAR LOS VALORES DEL TITULO Y NOTAS
+	const onInputChange = ({ target }: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+		setFormValues({
+			...formValues,
+			[target.name]: target.value,
+		});
+	};
 
-					<hr />
-					<div className='form-group mb-2'>
-						<label>Titulo y notas</label>
-						<input
-							type='text'
-							className='form-control'
-							placeholder='Título del evento'
-							name='title'
-							autoComplete='off'
-							value={title}
-							// onChange={onDataChange}
-							onChange={onInputChange}
-						/>
-						<small
-							id='emailHelp'
-							className='form-text text-white'>
-							Una descripción corta
-						</small>
-					</div>
+	//******************************************************************* */
+	//*  FUNCION PARA ENVIAR EL FORMULARIO
+	const onSubmit = (e: any) => {
+		e.preventDefault();
+		console.log(formValues);
+		const difference = differenceInSeconds(
+			formValues.end,
+			formValues.start
+		);
 
-					<div className='form-group mb-2'>
-						<textarea
-							className='form-control'
-							placeholder='Notas'
-							rows={5}
-							value={notes}
-							// onChange={onDataChange}
-							onChange={onInputChange}
-							name='notes'></textarea>
-						<small
-							id='emailHelp'
-							className='form-text text-white'>
-							Información adicional
-						</small>
-					</div>
-					<ContentFooter />
-				</form>
-			</Dialog>
-		</div>
+		if (isNaN(difference) || difference <= 0) {
+			Swal.fire("Error en fechas", "Revisar las fechas", "error");
+			return;
+		}
+		// closeDateModal();
+	};
+
+	//******************************************************************* */
+	//*  FUNCION PARA CERRAR EL MODAL
+	const onCloseModal = () => {
+		if (!isDateModalOpen) return;
+		closeDateModal();
+	};
+
+	return (
+		<Modal
+			isOpen={isDateModalOpen}
+			onRequestClose={onCloseModal}
+			style={customStyles}
+			className='modal'
+			overlayClassName='modal-fondo'
+			closeTimeoutMS={200}>
+			<h1>Nuevo Evento</h1>
+			<hr />
+			<form
+				className='container'
+				onSubmit={onSubmit}>
+				<div className='form-group mb-2'>
+					<label>Fecha y hora inicio</label>
+					<br />
+					<CalendarComponent
+						initialDate={formValues.start}
+						onChange={(event) => onDateChange(event, "start")}
+						showTime={true}
+						hourFormat='24'
+					/>
+				</div>
+				<div className='form-group mb-2'>
+					<label>Fecha y hora fin</label>
+					<br />
+					<CalendarComponent
+						initialDate={formValues.end}
+						onChange={(event) => onDateChange(event, "end")}
+						minDate={formValues.start}
+						showTime={true}
+						hourFormat='24'
+					/>
+				</div>
+				<hr />
+				<div className='form-group mb-2'>
+					<label>Titulo y notas</label>
+					<input
+						type='text'
+						className='form-control'
+						placeholder='Título del evento'
+						name='title'
+						autoComplete='off'
+						value={formValues.title}
+						onChange={onInputChange}
+					/>
+					<small
+						id='emailHelp'
+						className='form-text text-white'>
+						Una descripción corta
+					</small>
+				</div>
+				<div className='form-group mb-2'>
+					<textarea
+						className='form-control'
+						placeholder='Notas'
+						rows={5}
+						value={formValues.notes}
+						onChange={onInputChange}
+						name='notes'></textarea>
+					<small
+						id='emailHelp'
+						className='form-text text-white'>
+						Información adicional
+					</small>
+				</div>
+				<ContentFooter />
+			</form>
+		</Modal>
 	);
-}
+};

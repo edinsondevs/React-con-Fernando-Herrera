@@ -1,19 +1,20 @@
 export type InputCalendar = 'start' | 'end';
 export type HourFormat = '12' | '24';
 export interface labelCalendarInterface {
-	onInputChange: (e: any) => void;
-	type?: InputCalendar;
 	minDate?: Date;
 	showTime?: boolean;
-	hourFormat?: HourFormat;
+	type?: string;
+	hourFormat?: "12" | "24"; // agregar esta propiedad con el tipo correcto
+	initialDate: Date; // nueva propiedad
+	onChange: (date: Date) => void;
 }
 
 // Definición de FormInterface
 export interface FormInterface {
     title: string;
     notes: string;
-    start: Date;
-    end: Date;
+    start: any;
+    end: any;
 }
 
 
@@ -35,8 +36,8 @@ export interface CalendarModalProps {
 export interface EventForm {
 	title: string;
 	notes: string;
-	start: Date;
-	end: Date | "";
+	start: any;
+	end: any | "";
 }
 export interface User {
 	id: number;
@@ -44,9 +45,10 @@ export interface User {
 }
 
 export interface EventInterface {
+	_id: number;
 	title: string;
 	notes: string;
-	start: Date;
-	end: Date;
+	start: any;
+	end: any;
 	user: User;
 }
