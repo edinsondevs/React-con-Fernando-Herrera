@@ -18,7 +18,7 @@ export const calendarSlice = createSlice({
 	name: "calendar",
 	initialState: {
 		events: [tempEvent] || [],
-		activeEvent: null,
+		activeEvent: null as EventInterface | null, // Agrega el tipo EventInterface | null ,
 	},
 	reducers: {
 		//ACA VAN LAS FUNCIONES A REALIZAR
@@ -32,17 +32,19 @@ export const calendarSlice = createSlice({
 		},
 
 		onUpdateEvent: (state, { payload }) => {
-			state.events = state.events.map((event) =>{
-				if(event._id === payload._id){
-					return payload
+			state.events = state.events.map((event) => {
+				if (event._id === payload._id) {
+					return payload;
 				}
-				return event
+				return event;
 			});
 		},
 
 		onDeleteEvent: (state) => {
 			if (state.activeEvent) {
-				state.events = state.events.filter((event) => event._id !== state.activeEvent?._id) ;
+				state.events = state.events.filter(
+					(event) => event._id !== state.activeEvent?._id
+				);
 				state.activeEvent = null;
 			}
 		},
