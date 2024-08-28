@@ -1,28 +1,38 @@
 const { response } = require('express');
 const { validationResult } = require('express-validator');
+const Usuario = require('../models/Usuario');
 
-const createUser = (req, res= response) => {
-    const { usuario, edad, direccion, telefono, correo, contrasena  } = req.body;
+const createUser = async (req, res= response) => {
+    const { correo } = req.body;
+    
+    try {        
+        let usuario = await Usuario.findOne({ correo });
+        
+        if (usuario) {
+            return res.status(400).json({
+                ok: false,
+                message: 'El correo ya existe'
+            })
+        }
+        
+        usuario = new Usuario(req.body); 
+        await usuario.save();
 
-    const errors = validationResult(req);
-    if(!errors.isEmpty()){
-        return res.status(400).json({
+        res.status(201).json({
+            mensagge: 'Usuario Creado Correctamente',
+            uid: usuario._id,
+            nombre: usuario.nombre,
             ok: false,
-            errors: errors.mapped()
+        })        
+        
+    } catch (error) {
+        console.log('error al crear usuario', error);
+        res.status(500).json({
+            ok: false,
+            message: 'Error en el servidor'
         })
-    };
-    res.status(201).json({
-        user: {
-            usuario,
-            edad,
-            direccion,
-            telefono,
-            correo,
-            contrasena
-        },
-        mensagge: 'createUser',
-        ok: false,
-    })
+    }
+
     
 };
 
@@ -37,12 +47,7 @@ const loginUser = (req, res= response) => {
     const { usuario, edad, direccion, telefono, contrasena  } = req.body;
     const errors = validationResult(req);
 
-    if(!errors.isEmpty()){
-        return res.status(400).json({
-            ok: false,
-            errors: errors.mapped()
-        })
-    };
+    
 
     res.json({
         ok: true,

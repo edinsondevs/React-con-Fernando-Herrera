@@ -1,8 +1,13 @@
 const express = require('express');
 require('dotenv').config();
+const { dbConnection } = require('./databases/config');
 
 // CREAR EL SERVIDOR EXPRESS
 const app = express();
+
+// CONEXION CON LA BASE DE DATOS DE MONGODB USANDO MONGOOSE
+dbConnection();
+
 // Directorio publico
 app.use(express.static('public'));
 
