@@ -20,6 +20,7 @@ app.use('/api/auth', require('./routes/auth'));
 
 
 // todo: Ruta CRUD
+app.use('/api/events', require('./routes/events'));
 
 
 // EXPORTAR EL SERVIDOR
