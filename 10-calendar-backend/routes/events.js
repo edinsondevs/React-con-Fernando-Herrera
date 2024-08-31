@@ -22,13 +22,16 @@ router.get('/', validarJWT, getEventos)
  * CREAR EVENTO NUEVO
  * @description createEvento: es el controlador
 */
-router.post('/', validarJWT, [
-// Suggested code may be subject to a license. Learn more: ~LicenseLog:4214860399.
-    check('title', 'El titulo es obligatorio').not().isEmpty(),
-    // check('start', 'La fecha de inicio es obligatoria').custom(isDate),
-    // check('end', 'La fecha de finalizacion es obligatoria').custom(isDate),
-    validarCampos
-], createEvento)
+router.post(
+    '/', 
+    validarJWT, 
+    [
+        check('title', 'El titulo es obligatorio').not().isEmpty(),
+        check('start', 'La fecha de inicio es obligatoria').custom(isDate),
+        check('end', 'La fecha de finalizacion es obligatoria').custom(isDate),
+        validarCampos
+    ], createEvento
+)
 
 /**
  * ACTUALIZAR EVENTO 
