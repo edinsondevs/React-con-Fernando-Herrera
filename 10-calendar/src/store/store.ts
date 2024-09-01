@@ -3,7 +3,8 @@ import { uiSlice } from "./ui/uiSlice";
 import { calendarSlice } from "./calendar/calendarSlice";
 import { authSlice } from "./auth/authSlice";
 
-export const store = configureStore({
+
+const store = configureStore({
     reducer: {
         ui: uiSlice.reducer,
         calendar: calendarSlice.reducer,
@@ -15,3 +16,6 @@ export const store = configureStore({
         })
     },
 })
+
+export type AppDispatch = typeof store.dispatch;
+export default store;
