@@ -1,4 +1,3 @@
-import { Button } from 'primereact/button';
 import './LoginPage.css';
 
 export const LoginPage = () => {
