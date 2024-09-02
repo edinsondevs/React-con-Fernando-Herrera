@@ -1,7 +1,9 @@
+import { useEffect } from 'react';
 import { useAuthStore } from '../../hooks';
 import useForm from '../../hooks/useForm';
 import { LoginInterface, RegisterInterface } from '../../utils/interfaces/loginInterfaces';
 import './LoginPage.css';
+import Swal from 'sweetalert2';
 
 const loginInitialState: LoginInterface = {
 	loginEmail: "",
@@ -19,34 +21,28 @@ export const LoginPage = () => {
 
     const { loginEmail, loginPassword, onInputChange: onLoginInputChange } = useForm(loginInitialState, {});
     const { registerName, registerEmail, registerPassword, registerPassword2, onInputChange: onRegisterInputChange } = useForm(registerInitialState, {});
-	const { startLogin } = useAuthStore();
+	const { startLogin, errorMessage, startRegister } = useAuthStore();
 
     const loginSubmit = (event: React.FormEvent) => {
 		event.preventDefault();
-		console.log({ loginEmail, loginPassword });
-
 		startLogin({ correo: loginEmail, contrasena: loginPassword });
-
-		// setRegisterState({
-		//     ...registerState,
-		//     [name]: value,
-		// });
 	};
 
     const registerSubmit = (event: React.FormEvent) => {
 		event.preventDefault();
-		console.log(event);
-		console.log({
+		startRegister({
 			registerName,
 			registerEmail,
 			registerPassword,
 			registerPassword2,
 		});
-		// setRegisterState({
-		//     ...registerState,
-		//     [name]: value,
-		// });
 	};
+
+	useEffect(() => {
+		if(errorMessage !== undefined){
+			Swal.fire('Error en la autenticación', errorMessage, 'error');
+		}
+	}, [errorMessage]);
 
     return (
 		<div className='container login-container'>

@@ -27,13 +27,16 @@ export const authSlice = createSlice({
 			state.user = payload;
 			state.errorMessage = undefined;
 		},
-		onLogout: (state: AuthState) => {
+		onLogout: (state: AuthState, { payload }) => {
 			state.status = "not-authenticated";
 			state.user = {};
-			state.errorMessage = undefined;
+			state.errorMessage = payload;
 		},
+		clearErrorMessage: (state: AuthState) => {
+			state.errorMessage = undefined;
+		}
 	},
 });
 
 // Se generan creadores de acciones para cada función reductora de casos
-export const { onChecking, onLogin } = authSlice.actions;
+export const { onChecking, onLogin, onLogout, clearErrorMessage } = authSlice.actions;

@@ -8,11 +8,10 @@ const calendarApi = axios.create({
 });
 
 // todo: configurar interceptors
+calendarApi.interceptors.request.use( config => {
+    
+    config.headers.set('x-token', localStorage.getItem('token') || '')
+    return config
+})
 
-
-export default calendarApi
-
-export function post(arg0: string, arg1: { email: string; password: string; })
-{
-    throw new Error("Function not implemented.");
-}
+export default calendarApi;
