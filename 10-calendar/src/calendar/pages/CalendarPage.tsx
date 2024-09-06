@@ -7,6 +7,7 @@ import { Button } from 'primereact/button'
 import { CalendarModal } from '../components/CalendarModal'
 import { useCalendarStore, useUiStore } from '../../hooks'
 import { FabAddNew } from '../index'
+import { useEffect } from 'react'
 
 
 
@@ -25,7 +26,7 @@ const eventGetter: EventPropGetter<any> = (_event: string, _start: Date, _end: D
 export const CalendarPage = () => {
 
   const { openDateModal } = useUiStore();
-  const { events, setActiveEvent } = useCalendarStore();
+  const { events, setActiveEvent, startLoadingEvent } = useCalendarStore();
   
   const onDoubleClick = (event: any,) => {
     openDateModal();
@@ -39,6 +40,9 @@ export const CalendarPage = () => {
     localStorage.setItem('defaultView', event)
   }
 
+  useEffect(() => {
+	startLoadingEvent()
+  }, [])
   
   return (
 		<>

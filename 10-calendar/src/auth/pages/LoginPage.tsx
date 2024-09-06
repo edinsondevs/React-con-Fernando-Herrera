@@ -4,6 +4,7 @@ import useForm from '../../hooks/useForm';
 import { LoginInterface, RegisterInterface } from '../../utils/interfaces/loginInterfaces';
 import './LoginPage.css';
 import Swal from 'sweetalert2';
+import { Messages } from '../../utils/messagesApp';
 
 const loginInitialState: LoginInterface = {
 	loginEmail: "",
@@ -39,8 +40,8 @@ export const LoginPage = () => {
 	};
 
 	useEffect(() => {
-		if(errorMessage !== undefined){
-			Swal.fire('Error en la autenticación', errorMessage, 'error');
+		if (errorMessage && Object.keys(errorMessage).length > 0) {
+			Swal.fire(Messages.ErrorAuth, errorMessage, "error");
 		}
 	}, [errorMessage]);
 

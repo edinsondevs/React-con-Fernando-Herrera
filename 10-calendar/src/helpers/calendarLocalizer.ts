@@ -16,7 +16,7 @@ export const localizer = dateFnsLocalizer({
 
 type View = 'week' | 'month' | 'day' | 'agenda';
 
-export const defaultView = localStorage.getItem('defaultView') as View || 'day';
+export const defaultView = localStorage.getItem('defaultView') as View || 'week';
 
 // Define la interfaz para los eventos
 export interface Event {

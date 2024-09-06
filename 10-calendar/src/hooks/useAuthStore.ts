@@ -13,7 +13,6 @@ export const useAuthStore = () => {
     const dispatch = useDispatch();
 
     const startLogin = async ({ correo, contrasena }: LoginDispatchInterface) => {
-        
         dispatch(onChecking())
         try {
         
@@ -65,7 +64,7 @@ export const useAuthStore = () => {
         const token = localStorage.getItem('token');
 
         // * Si no hay token mando el logout
-        if(!token) return dispatch(onLogout(''));
+        if(!token) return dispatch(onLogout({}));
 
         try {
             const { data } = await calendarApi.get('/auth/renew');
@@ -73,7 +72,8 @@ export const useAuthStore = () => {
             localStorage.setItem('token-init-date', new Date().getTime().toString());
             dispatch(onLogin({ nombre: data.nombre, uid: data.uid }));
         } catch (error) {
-            // dispatch(onLogout(Messages.TokenError));
+            localStorage.clear();
+            dispatch(onLogout({}));
             console.log(error);
         }
     }

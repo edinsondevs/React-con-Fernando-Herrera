@@ -92,7 +92,7 @@ export const CalendarModal = () => {
 			Swal.fire("Error en fechas", "Revisar las fechas", "error");
 			return;
 		}
-
+		console.log(formValues);
 		await startSaveEvent(formValues);
 
 		closeDateModal();

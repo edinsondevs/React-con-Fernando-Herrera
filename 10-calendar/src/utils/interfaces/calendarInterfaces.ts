@@ -52,3 +52,20 @@ export interface EventInterface {
 	end: any;
 	user: User;
 }
+
+export interface CalendarSliceInterface {
+	title: string;
+	notes: string;
+	start: string;
+	end: string;
+	id: string;
+	user: User;
+}
+
+export interface User {
+	_id: number;
+	nombre: string;
+	correo: string;
+	contrasena: string;
+	__v: number;
+}
