@@ -45,7 +45,7 @@ export interface User {
 }
 
 export interface EventInterface {
-	_id: number;
+	id: string;
 	title: string;
 	notes: string;
 	start: any;

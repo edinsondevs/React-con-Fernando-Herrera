@@ -1,18 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-// import { addHours } from 'date-fns';
 import { CalendarSliceInterface, EventInterface } from '../../utils/interfaces/calendarInterfaces';
-
-// const tempEvent: EventInterface = {
-// 	_id: new Date().getTime(),
-// 	title: "Cumpleaños",
-// 	notes: "ir a la fiesta",
-// 	start: new Date(),
-// 	end: addHours(new Date(), 2),
-// 	user: {
-// 		id: 1,
-// 		name: "John",
-// 	},
-// };
 
 export const calendarSlice = createSlice({
 	name: "calendar",
@@ -22,7 +9,6 @@ export const calendarSlice = createSlice({
 		activeEvent: null as EventInterface | null, // Agrega el tipo EventInterface | null ,
 	},
 	reducers: {
-		//ACA VAN LAS FUNCIONES A REALIZAR
 		onSetActiveEvent: (state, { payload }) => {
 			state.activeEvent = payload;
 		},
@@ -34,7 +20,7 @@ export const calendarSlice = createSlice({
 
 		onUpdateEvent: (state, { payload }) => {
 			state.events = state.events.map((event) => {
-				if (event.id === payload._id) {
+				if (event.id === payload.id) {
 					return payload;
 				}
 				return event;
@@ -42,10 +28,11 @@ export const calendarSlice = createSlice({
 		},
 
 		onDeleteEvent: (state) => {
+			
 			if (state.activeEvent) {
 				state.events = state.events.filter(
 					(event: any) =>
-						event.id !== state.activeEvent?._id
+						event.id !== state.activeEvent?.id
 				);
 				state.activeEvent = null;
 			}
@@ -63,9 +50,22 @@ export const calendarSlice = createSlice({
 				}
 			});
 		},
+
+		onLogoutCalendar: (state) => {
+			state.isLoadingEvents = true;
+			state.events = [];
+			state.activeEvent = null;
+		},
 	},
 });
 
 
 // Se generan creadores de acciones para cada función reductora de casos
-export const { onSetActiveEvent, onAddNewEvent, onUpdateEvent, onDeleteEvent, onLoadEvents } = calendarSlice.actions;
+export const {
+	onSetActiveEvent,
+	onAddNewEvent,
+	onUpdateEvent,
+	onDeleteEvent,
+	onLoadEvents,
+	onLogoutCalendar
+} = calendarSlice.actions;

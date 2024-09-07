@@ -12,10 +12,6 @@ export const AppRouter = () => {
       checkAuthToken();    
     }, [])
   
-    if(status === 'checking') {
-      return <h1>Cargando...</h1>
-    }
-  
 
   return (
     <Routes>

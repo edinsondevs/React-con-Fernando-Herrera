@@ -28,7 +28,7 @@ export const CalendarPage = () => {
   const { openDateModal } = useUiStore();
   const { events, setActiveEvent, startLoadingEvent } = useCalendarStore();
   
-  const onDoubleClick = (event: any,) => {
+  const onDoubleClick = () => {
     openDateModal();
   };
   
@@ -40,9 +40,11 @@ export const CalendarPage = () => {
     localStorage.setItem('defaultView', event)
   }
 
+  const existToken = localStorage.getItem('token')
+
   useEffect(() => {
-	startLoadingEvent()
-  }, [])
+		startLoadingEvent();
+  }, [existToken]);
   
   return (
 		<>
