@@ -22,7 +22,7 @@ export const useCalendarStore = () => {
 		// TODO: actualizar el state del evento
 		// Actualizando		
 		try {
-				if(calendarEvent.id){
+				if(calendarEvent?.id){
 				await calendarApi.put(`/events/${calendarEvent.id}`, calendarEvent);
 				dispatch(onUpdateEvent({...calendarEvent}));
 				Swal.fire('Actualizado', 'El evento se actualizo correctamente', 'success')
@@ -37,7 +37,7 @@ export const useCalendarStore = () => {
 			// calendarEvent.user = user;
 			const { data: { data } } = await calendarApi.post('/events', calendarEvent);
 			Swal.fire('Nota Creada', 'El evento se creo correctamente', 'success');
-			dispatch(onAddNewEvent({ ...calendarEvent, id: data.id, user }));
+			dispatch(onAddNewEvent({ ...calendarEvent, id: data?.id, user }));
 		
 	}
 
@@ -54,11 +54,13 @@ export const useCalendarStore = () => {
 
 	const startLoadingEvent = async () => {
 		try {
-			const { data } = await calendarApi.get('/events')			
-			const events = mapperDateEvents(data.events);
-			dispatch(onLoadEvents(events));
+			const { data } = await calendarApi.get('/events')		
+			if(data && data.events){
+				const events = data && mapperDateEvents(data.events);
+				dispatch(onLoadEvents(events));
+			}	
 		} catch (error) {
-			console.log(error);
+			console.log(error as Error );
 			console.log('Error cargando los eventos');
 		}
 	};
