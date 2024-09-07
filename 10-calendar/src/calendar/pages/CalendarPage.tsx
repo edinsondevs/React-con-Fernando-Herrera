@@ -5,11 +5,9 @@ import 'react-big-calendar/lib/css/react-big-calendar.css'
 import { CalendarEvent, FabAddDelete, Navbar } from "../index"
 import { Button } from 'primereact/button'
 import { CalendarModal } from '../components/CalendarModal'
-import { useCalendarStore, useUiStore } from '../../hooks'
+import { useCalendarStore, useUiStore, useLocalStorage } from "../../hooks";
 import { FabAddNew } from '../index'
 import { useEffect } from 'react'
-
-
 
 const eventGetter: EventPropGetter<any> = (_event: string, _start: Date, _end: Date, isSelected: boolean,  ) => {
   return {
@@ -27,7 +25,9 @@ export const CalendarPage = () => {
 
   const { openDateModal } = useUiStore();
   const { events, setActiveEvent, startLoadingEvent } = useCalendarStore();
-  
+  const { getLocalStorage } = useLocalStorage("token");
+  const { setItemStorage } = useLocalStorage("defaultView");
+
   const onDoubleClick = () => {
     openDateModal();
   };
@@ -37,13 +37,13 @@ export const CalendarPage = () => {
   }
   
   const onViewChange = ( event: any) => {
-    localStorage.setItem('defaultView', event)
+    setItemStorage(event);
   }
 
-  const existToken = localStorage.getItem('token')
+  const existToken = getLocalStorage() ? true : false;
 
   useEffect(() => {
-		startLoadingEvent();
+		existToken && startLoadingEvent();
   }, [existToken]);
   
   return (

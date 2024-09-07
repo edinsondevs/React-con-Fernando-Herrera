@@ -5,10 +5,13 @@ import { clearErrorMessage, onChecking, onLogin, onLogout, onLogoutCalendar } fr
 import Swal from "sweetalert2";
 import { StateInterface } from "../utils/interfaces/authInterfaces";
 import { Messages } from "../utils/messagesApp";
+import { useLocalStorage }  from "./useLocalStorage";
 
 
 export const useAuthStore = () => {
 
+    const { setItemStorage: setToken, clearLocalStorage } = useLocalStorage<string>("token", "");
+    const { setItemStorage: setTokenInitiDate,  } = useLocalStorage<string>("token-init-date", "");
     const { status, user, errorMessage } = useSelector((state: StateInterface) => state.auth);
     const dispatch = useDispatch();
 
@@ -20,8 +23,8 @@ export const useAuthStore = () => {
             const resp = await calendarApi.post('/auth', { correo, contrasena });
             
             // * Guardando token en LocalStorage
-            localStorage.setItem('token', resp.data.token);
-            localStorage.setItem('token-init-date', new Date().getTime().toString());
+            setToken(resp.data.token);
+            setTokenInitiDate(new Date().getTime().toString());
 
             // * Guardando datos del usuario en redux
             dispatch(onLogin({ nombre: resp.data.nombre, uid: resp.data.uid }));
@@ -47,7 +50,8 @@ export const useAuthStore = () => {
                 return;
             }
             const resp = await calendarApi.post('/auth/register', { nombre: registerName, correo: registerEmail, contrasena: registerPassword });
-            
+            setToken(resp.data.token);
+            setTokenInitiDate(new Date().getTime().toString());
             if(resp.status === 201) {
                 dispatch( onLogin({ nombre: resp.data.nombre, uid: resp.data.uid }) );
                 Swal.fire(Messages.UserCreated, Messages.UserCreatedSuccess, 'success');
@@ -68,18 +72,19 @@ export const useAuthStore = () => {
 
         try {
             const { data } = await calendarApi.get('/auth/renew');
-            localStorage.setItem('token', data.token);
-            localStorage.setItem('token-init-date', new Date().getTime().toString());
+            setToken(data.token);
+            setToken(new Date().getTime().toString());
             dispatch(onLogin({ nombre: data.nombre, uid: data.uid }));
         } catch (error) {
-            localStorage.clear();
+            // localStorage.clear();
+            clearLocalStorage();
             dispatch(onLogout({}));
             console.log(error);
         }
     }
 
     const startLogout = () => {
-        localStorage.clear();
+        clearLocalStorage();
         dispatch(onLogoutCalendar());
         dispatch(onLogout({}));
     }
