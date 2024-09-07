@@ -8,7 +8,7 @@ interface StorageItem {
 	getLocalStorage: () => string | null;
 }
 
-export const useLocalStorage = <T>(
+export const useLocalStorage = (
 	key: string,
 	initialValue: any | null = null
 ): StorageItem => {

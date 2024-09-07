@@ -10,8 +10,8 @@ import { useLocalStorage }  from "./useLocalStorage";
 
 export const useAuthStore = () => {
 
-    const { setItemStorage: setToken, clearLocalStorage } = useLocalStorage<string>("token", "");
-    const { setItemStorage: setTokenInitiDate,  } = useLocalStorage<string>("token-init-date", "");
+    const { setItemStorage: setToken, clearLocalStorage } = useLocalStorage("token", "");
+    const { setItemStorage: setTokenInitiDate,  } = useLocalStorage("token-init-date", "");
     const { status, user, errorMessage } = useSelector((state: StateInterface) => state.auth);
     const dispatch = useDispatch();
 
