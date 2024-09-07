@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-interface StorageItem<T> {
+interface StorageItem {
 	itemStorage: string | null;
 	error: Error | null;
 	setItemStorage: (newValue: string) => void;
@@ -11,7 +11,7 @@ interface StorageItem<T> {
 export const useLocalStorage = <T>(
 	key: string,
 	initialValue: any | null = null
-): StorageItem<T> => {
+): StorageItem => {
 	const [itemStorage, setItemStorage] = useState<string | null>(initialValue);
 	const [error, setError] = useState<Error | null>(null);
 
